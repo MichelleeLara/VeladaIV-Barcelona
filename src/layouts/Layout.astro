@@ -19,16 +19,55 @@ import '@fontsource-variable/jost';
 		<title>{title}</title>
 	</head>
 	<body>
+		<!-- <div class="fixed top-0 z-[-2] h-screen w-screen bg-white bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div> -->
+		<div class="relative container mx-auto w-screen -z-10 overflow-x-clip">
+			<img
+			  aria-hidden="true"
+			  src="/lights.svg"
+			  class="absolute md:scale-125 lg:scale-100 lg:left-0 top-0 opacity-0 transform-gpu w-screen brightness-0 dark:brightness-200"
+			  onload="this.classList.add('animate-fade-in', 'animate-duration-500')"
+			  alt="Focos de luz"
+			/>
+		  </div>
 		<div class="max-w-6xl mx-auto px-2 pt-16 md:px-10 md:pt-20 lg:px-10">
 			<slot />
 		</div>
 	</body>
 </html>
 <style is:global>
-	
-	html {
-		
-		font-family: 'Jost Variable', sans-serif;
-		background: #ddd;
-	}
+
+:root {
+    --color-primary: #333;
+    --color-secondary: #ddd;
+    --color-twitch: #6441a4;
+
+    --background-color: var(--color-secondary);
+    --background-image: var(--background-color) url("/concrete.png") repeat;
+  }
+
+  .dark {
+    --color-primary: #ddd;
+    --color-secondary: #333;
+    --color-twitch: #a270ff;
+
+    --background-image: var(--background-color) url("/concrete-dark.png") repeat;
+  }
+
+  html {
+    font-family: "Jost Variable", system-ui, sans-serif;
+    background: var(--background-image);
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    overscroll-behavior: none;
+  }
+
+	.sr-only:not(:focus):not(:active) {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
 </style>

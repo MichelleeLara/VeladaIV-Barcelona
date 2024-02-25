@@ -1,27 +1,28 @@
 ---
 import IconVelada from '@/Icons/IconVelada.astro'
+const TIMESTAMP_END = 1709575200000
 ---
 
 <section class="flex flex-col gap-10 items-center justify-center py-24">
     <IconVelada/>
     <h3 class="uppercase text-lg font-medium text-primary opacity-80 text-center text-balance">Para el evento de presentación faltan</h3>
-    <div class="text-primary uppercase font-semibold flex gap-2">
-        <div class="flex flex-col items-center gap-1">
+    <div data-date={TIMESTAMP_END} class="text-primary uppercase font-semibold flex gap-2">
+        <div data-days class="flex flex-col items-center gap-1">
             <span class="text-4xl tabular-nums px-3">09</span>
             <span class="text-xs text-center">días</span>
         </div>
         <span class="text-xl font-bold mt-1">:</span>
-        <div class="flex flex-col items-center gap-1">
+        <div data-hours class="flex flex-col items-center gap-1">
             <span class="text-4xl tabular-nums px-3">27</span>
             <span class="text-xs text-center">horas</span>
         </div>
         <span class="text-xl font-bold mt-1">:</span>
-        <div class="flex flex-col items-center gap-1">
+        <div data-minutes class="flex flex-col items-center gap-1">
             <span class="text-4xl tabular-nums px-3">41</span>
             <span class="text-xs text-center">minutos</span>
         </div>
         <span class="text-xl font-bold mt-1">:</span>
-        <div class="flex flex-col items-center gap-1">
+        <div data-seconds class="flex flex-col items-center gap-1">
             <span class="text-4xl tabular-nums px-3">10</span>
             <span class="text-xs text-center">segundos</span>
         </div>
@@ -30,3 +31,50 @@ import IconVelada from '@/Icons/IconVelada.astro'
     
 
 </section>
+
+<script>
+
+    const SECOND = 1000
+    const MINUTE = SECOND * 60
+    const HOUR = MINUTE * 60
+    const DAY = HOUR * 24
+
+    function init() {
+        console.log('');
+        const countdown = document.querySelector('[data-date]')
+        if (!countdown) return
+
+        const days = document.querySelector('[data-days] span')
+        const hours = document.querySelector('[data-hours] span')
+        const minutes = document.querySelector('[data-minutes] span')
+        const seconds = document.querySelector('[data-seconds] span')
+
+        const timeStamp = countdown.getAttribute('data-date')
+        if (!timeStamp) return
+
+        const formatTime = (time:number) =>{
+            return Math.floor(time).toString().padStart(2, '0')
+        }
+
+        const date = new Date(+timeStamp).getTime()
+        function updateCountdown(){
+            const now = Date.now()
+            const diff = date - now
+            if (days instanceof HTMLElement){
+                days.innerText = formatTime(diff / DAY)
+            }
+            if (hours instanceof HTMLElement){
+                hours.innerText = formatTime((diff % DAY / HOUR))
+            }
+            if (minutes instanceof HTMLElement){
+                minutes.innerText = formatTime((diff % HOUR / MINUTE))
+            }
+            if (seconds instanceof HTMLElement){
+                seconds.innerText = formatTime((diff % MINUTE / SECOND))
+            }
+        }
+        setInterval(updateCountdown, SECOND)
+        console.log(date);
+    }
+    init()
+</script>
